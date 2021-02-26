@@ -22,9 +22,14 @@ It will accept manual imputs of sequences from UI, or read .csv, .txt, or .fasta
 
 The output will be a .txt file that lists the imputted sequences, the Tm value of primers (and any warnings),  RNA secondary structures, and false priming reagions like
 > primer1    5'ATCGGTACTGC3'  15
+> 
 >                |||||||
+>                
 > templet2   3'ATGCCATGAGC5'  650
 > 
+> 
 > primer3    5'ATCGGTACT3'    20
+> 
 >                |||||||
+>                
 > primer4      3'GCCATGAGC5'  17
