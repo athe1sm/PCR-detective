@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from Bio import SeqIO
 class read_file:
-    def __init__(self, file="/home/athe1sm//hacks/PCR-detective/data/sequence.fasta"):
+    def __init__(self, file="/home/athe1sm/hacks/PCR-detective/data/sequence.fasta"):
         self.filepath = file
         
         # updated class object by storing outputs in init
