@@ -3,12 +3,13 @@ from readfile import read_file
 from Bio.Seq import Seq
 #seq_tuple=readfile
 class cleanup:
-    def __init__(self,seq_tuple=read_file("/home/athe1sm/hacks/PCR-detective/data/sequence.fasta").readfile(),temptype='DNA',autoclean=0):
-        #self.seq_tuple=seq_tuple
-        self.seq_zip = zip(seq_tuple[0],seq_tuple[1])
+    def __init__(self,seq_tuple="/home/athe1sm/hacks/PCR-detective/data/bad_seq.fasta",temptype='DNA',autoclean=0):
+        self.seq_tuple= read_file(seq_tuple).readfile()
+        self.seq_zip = zip(self.seq_tuple[0],self.seq_tuple[1])
         self.temptype = temptype
         self.autoclean = autoclean 
-        print(list(self.seq_zip))
+        #print(list(self.seq_zip))
+        self.cleanseqlist=[]
         
 
     def check_base(self):
@@ -28,16 +29,30 @@ class cleanup:
         "change the Ts and Us in the RNA or DNA sequence"
         if self.temptype == 'RNA':
             for pairs in self.seq_zip:
-                mutableseq = pairs[1].tomutable()
-                if 'primers' in pairs[0]:
-                    mutableseq.replace('U','T')
-        pass
+                seqstr = str(pairs[1])
+                if 'primer' in pairs[0]:
+                    clnseqstr=seqstr.replace('U','T')
+                if 'templet' in pairs[0]:
+                    clnseqstr=seqstr.replace('T','U')
+                self.cleanseqlist.append(Seq(clnseqstr))
+        elif self.temptype == 'DNA':
+            for pairs in self.seq_zip:
+                seqstr = str(pairs[1])
+                if 'primer' in pairs[0]:
+                    clnseqstr=seqstr.replace('U','T')
+                if 'templet' in pairs[0]:
+                    clnseqstr=seqstr.replace('U','T')
+                self.cleanseqlist.append(Seq(clnseqstr))              
+        self.clean_zip=zip(self.seq_tuple[0],self.cleanseqlist)
+        
 
     def clean_up(self):
         "the main function that returns a dictionary of sequences"
+        if self.autoclean==0:
         self.check_base()
+        if self.autoclean==1
         self.change_base()
-        return 0
+        return self.clean_zip
 
 if __name__== '__main__':
-    print(cleanup().clean_up())
+    print(list(cleanup().clean_up()))

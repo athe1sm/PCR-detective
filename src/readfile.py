@@ -7,7 +7,7 @@ class read_file:
         # updated class object by storing outputs in init
         self.seqid_list = []
         self.seq_list = []
-        self.seq_tuple = ""  # add placeholder to store output
+        #self.seq_tuple = ""  # add placeholder to store output
 
     def checkfiletype(self):
         "check if the file is in required format, which will be .fasta or .txt"
@@ -24,14 +24,14 @@ class read_file:
             self.seqid_list.append(seq_record.id)
             self.seq_list.append(seq_record.seq)
         self.seq_tuple = (self.seqid_list, self.seq_list)
-        print(self.seq_tuple)
-        # return self.seq_tuple, return statement not working
+        
 
     def readfile(self):
         "the main function that returns a tuple of ids and sequences"
         self.checkfiletype()
         self.extract_seq()
+        return self.seq_tuple
 
 if __name__ == "__main__":
     seq1 = read_file()
-    seq1.readfile()
+    print(seq1.readfile())
