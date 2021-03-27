@@ -10,7 +10,7 @@ class read_file:
         self.seq_tuple = ""  # add placeholder to store output
 
     def checkfiletype(self):
-        "check if the file is in required format, which will be "
+        "check if the file is in required format, which will be .fasta or .txt"
         filetype = self.filepath.split(".")[-1]
         if filetype == "fasta" or filetype == "txt":
             pass
@@ -19,7 +19,7 @@ class read_file:
 
     def extract_seq(self):
         for seq_record in SeqIO.parse(
-            "/home/athe1sm/hacks/PCR-detective/data/sequence.fasta", "fasta"
+            self.filepath, "fasta"
         ):
             self.seqid_list.append(seq_record.id)
             self.seq_list.append(seq_record.seq)
@@ -28,7 +28,7 @@ class read_file:
         # return self.seq_tuple, return statement not working
 
     def readfile(self):
-        "the main function that returns a dictionary of sequences"
+        "the main function that returns a tuple of ids and sequences"
         self.checkfiletype()
         self.extract_seq()
 
