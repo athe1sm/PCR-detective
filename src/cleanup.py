@@ -1,15 +1,38 @@
 #!/usr/bin/env python
 from readfile import read_file
 from Bio.Seq import Seq
+import os
+
 #seq_tuple=readfile
 class cleanup:
-    def __init__(self,seq_tuple="/home/athe1sm/hacks/PCR-detective/data/bad_seq.fasta",temptype='DNA',autoclean=0):
+    def __init__(self,seq_tuple="/home/athe1sm/hacks/PCR-detective/data/bad_seq.fasta",temptype='DNA',output='new output',autoclean=1):
         self.seq_tuple= read_file(seq_tuple).readfile()
         self.seq_zip = zip(self.seq_tuple[0],self.seq_tuple[1])
         self.temptype = temptype
         self.autoclean = autoclean 
         #print(list(self.seq_zip))
         self.cleanseqlist=[]
+        self.outputname=output
+
+    def makeoutput(self):
+        outputpath = os.getcwd()+'/output'
+        if not os.path.exists(outputpath):
+            os.makedirs(outputpath)
+        output = outputpath + '/' + self.outputname + '.txt'
+        if os.path.isfile(output):
+            n=0
+            while 1:
+                n += 1
+                noutput = output[-4] + "(" + str(n) + ").txt"
+                if not os.path.isfile(noutput):
+                    break
+            self.file = open(noutput,'w')
+        else:
+            self.file = open(output,'w')
+        self.file.write('PCR-detective Result')
+        self.file.close()
+
+        
         
 
     def check_base(self):
@@ -45,13 +68,15 @@ class cleanup:
                 self.cleanseqlist.append(Seq(clnseqstr))              
         self.clean_zip=zip(self.seq_tuple[0],self.cleanseqlist)
         
-
+    def RNAstructure(self):
+        pass
     def clean_up(self):
         "the main function that returns a dictionary of sequences"
+        self.makeoutput()
         if self.autoclean==0:
-        self.check_base()
-        if self.autoclean==1
-        self.change_base()
+            self.check_base()
+        if self.autoclean==1:
+            self.change_base()
         return self.clean_zip
 
 if __name__== '__main__':
