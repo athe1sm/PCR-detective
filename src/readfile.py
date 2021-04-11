@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from Bio import SeqIO
-class read_file:
+class Read_file:
     def __init__(self, file="/home/athe1sm/hacks/PCR-detective/data/sequence.fasta"):
         self.filepath = file
         
