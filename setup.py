@@ -8,7 +8,7 @@ from setuptools import setup
 
 # build command
 setup(
-    name="PCR-detective",
+    name="PCR_detective",
     version="0.0.1",
     author="",
     author_email="",
@@ -16,6 +16,6 @@ setup(
     description="",
     classifiers=["Programming Language :: Python :: 3"],
     entry_points={
-        "console_scripts": ["src = src.__main__:main"]
+        "console_scripts": ["PCR_detective = src.__main__:main"]
     },
 )

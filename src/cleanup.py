@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-from readfile import Read_file
+from .readfile import Read_file
 from Bio.Seq import Seq
 import os
-from linearfold import linearfold
+from .linearfold import linearfold
 
 #seq_tuple=readfile
 class Cleanup:

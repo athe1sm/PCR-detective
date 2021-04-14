@@ -5,7 +5,9 @@ In this project, we are trying to create a lightweighted and open-sourced tool f
 Our tool will support several kinds of PCRs from conventional PCR to multiplex rt-qPCR. Our tool will verify (and clean up if required by the user) the input of the sequence that will be analyzed and will return a list of issues that might cause trouble in experiments, like distinct Tm difference between primers, complicated secondary structures in RNA templates, and false priming.
 
 ## Dependency:
-`Biopython` version 1.78
+`Biopython` version 1.78  
+`gcc` 4.8.5 or above  
+`python`3  
 
 ### In Devlopment
 We have successfully have the readfile module running, and the cleanup module is in development and hopefully will come into being in the near future. To use the readfile module just simply install the biopython package and run the code. You can also from module `readfile` import the `read_file` class, and run the code with
@@ -17,7 +19,22 @@ seq_tuple = file.readfile()
 
 the input will be fasta or txt files with sequences that can be recognized by Biopython, while the output will be a tuple including a list of ids and another list of sequences.
 
-How to install this tool locally:
+------------------------------------------------------------------------------------------
+### Update Log 2021/04/14  
+We are finally pushing the first CLI tool of PCR-detective!  
+The Python API is temporarily disabled to fit the command line usage  
+You may use this tool by typing in the command line like:  
+```
+PCR_detective [input path] [template type] [output file name] --clean
+```
+The output will be under the `./output` directory and the name will be your `[output file name].txt`  
+We also included the source file of the linearfold algorithm, that can be compiled by users.  
+
+### How to compile the C++ source file  
+```
+make
+```
+### How to install this tool locally:
 ```
 conda install biopython -c conda-forge ...
 
