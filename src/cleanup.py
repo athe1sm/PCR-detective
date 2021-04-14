@@ -6,7 +6,7 @@ from .linearfold import linearfold
 
 #seq_tuple=readfile
 class Cleanup:
-    def __init__(self,seq_tuple="/home/athe1sm/hacks/PCR-detective/data/bad_seq.fasta",temptype='DNA',output='new output',autoclean=1):
+    def __init__(self,seq_tuple="/home/athe1sm/hacks/PCR-detective/data/sequence.fasta",temptype='DNA',output='new output',autoclean=0):
         self.fileheader=seq_tuple.split('/')[-1]
         self.seq_tuple= Read_file(seq_tuple).readfile()
         self.seq_zip = zip(self.seq_tuple[0],self.seq_tuple[1])
@@ -45,10 +45,12 @@ class Cleanup:
             elif self.temptype == 'RNA' and 'templet' in pairs[0]:
                 if 'T' in pairs[1]:
                     raise Exception('Thymines are not expected in RNA templets')
-            self.file.write(pairs[0]+'\n'+pairs[1] + '\n')
+            self.file.write(str(pairs[0])+'\n'+str(pairs[1]) + '\n')
+            
             if self.temptype == 'RNA':
                 if 'template' in pairs[0]:
-                    self.file.write(linearfold(pairs[1]).run()+'\n')
+                    self.file.write(linearfold(str(pairs[1])).run()+'\n')
+        self.clean_zip = zip(self.seq_tuple[0],self.seq_tuple[1]) 
 
     def change_base(self):
         "change the Ts and Us in the RNA or DNA sequence"

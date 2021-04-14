@@ -33,5 +33,5 @@ class Read_file:
         return self.seq_tuple
 
 if __name__ == "__main__":
-    seq1 = read_file()
+    seq1 = Read_file()
     print(seq1.readfile())
