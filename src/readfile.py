@@ -1,7 +1,14 @@
 #!/usr/bin/env python
 from Bio import SeqIO
 class Read_file:
+    """
+    This class object reads the sample file or the file provided by the user, and returns a tuple of
+    sequences. 
+    """
     def __init__(self, file="/home/athe1sm/hacks/PCR-detective/data/sequence.fasta"):
+        """
+        initiate the class instance and takes the filepath
+        """
         self.filepath = file
         
         # updated class object by storing outputs in init
@@ -10,7 +17,9 @@ class Read_file:
         #self.seq_tuple = ""  # add placeholder to store output
 
     def checkfiletype(self):
-        "check if the file is in required format, which will be .fasta or .txt"
+        """
+        check the extension of the file that will be read to avoid unsupported filetype.
+        """
         filetype = self.filepath.split(".")[-1]
         if filetype == "fasta" or filetype == "txt":
             pass
@@ -18,6 +27,9 @@ class Read_file:
             raise Exception("Wrong filetype: Expected '.fasta' or '.txt' file")
 
     def extract_seq(self):
+        """
+        call SeqIO.parse from Biopython to extract the sequences contained in the file.
+        """
         for seq_record in SeqIO.parse(
             self.filepath, "fasta"
         ):
@@ -27,7 +39,9 @@ class Read_file:
         
 
     def readfile(self):
-        "the main function that returns a tuple of ids and sequences"
+        """
+        the main function that returns a tuple of ids and sequences
+        """
         self.checkfiletype()
         self.extract_seq()
         return self.seq_tuple

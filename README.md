@@ -6,6 +6,7 @@ Our tool will support several kinds of PCRs from conventional PCR to multiplex r
 
 ## Dependency:
 `Biopython` version 1.78  
+`numpy` 1.18.1  
 `gcc` 4.8.5 or above  
 `python`3  
 
@@ -22,8 +23,8 @@ Our tool will support several kinds of PCRs from conventional PCR to multiplex r
 │   ├── sequence.fasta
 │   └── sequence_rna.fasta
 ├── output
-│   ├── CLISEQDNA.txt
-│   └── CLISEQRNA.txt
+│   ├── DNAcheck.txt
+│   └── RNAcheck.txt
 ├── paired-programming.md
 ├── proposal.md
 ├── setup.py
@@ -31,6 +32,7 @@ Our tool will support several kinds of PCRs from conventional PCR to multiplex r
 │   ├── LinearFold.cpp
 │   ├── LinearFold.h
 │   ├── LinearFoldEval.cpp
+│   ├── SmithWaterman.py
 │   ├── Utils
 │   │   ├── energy_parameter.h
 │   │   ├── feature_weight.h
@@ -44,21 +46,55 @@ Our tool will support several kinds of PCRs from conventional PCR to multiplex r
 │   ├── cleanup.py
 │   ├── linearfold
 │   ├── linearfold.py
+│   ├── matchmaker.py
 │   ├── readfile.py
 │   ├── scripts
 │       └── gen_latex_script.py
 └── testseq
 ```
+----------------------------------------
 
-### In Devlopment
-We have successfully have the readfile module running, and the cleanup module is in development and hopefully will come into being in the near future. To use the readfile module just simply install the biopython package and run the code. You can also from module `readfile` import the `read_file` class, and run the code with
-
- ```
-file = read_file('filepath')
-seq_tuple = file.readfile()
+### How to compile the C++ source code  
 ```
+make
+```
+### How to install this tool locally:
+```
+conda install [dependencies] -c conda-forge ...
 
-the input will be fasta or txt files with sequences that can be recognized by Biopython, while the output will be a tuple including a list of ids and another list of sequences.
+git clone https://github.com/athe1sm/PCR-detective.git
+cd ./PCR-detective
+pip install -e .
+```
+----------------------------------------------------------------------------------------
+### Update Log 2021/04/21  
+We are adding many more features to this package.  
+
+The first thing is that the python API AND the command line features are both available now. You can make the max use of this tool by using it as a whole or calling modules from the package.  
+
+The second Thing that might be interesting is the epiphany of the DNA pairing system. Now all the sequences, after proper treatments, will be converted to DNA version, and then subject to DNA base-pairing alignment based on SmithWaterman algorithm, which will return the local best solution of the alignment.  
+
+This part will generate a result somehow like this:
+```
+comptemplate2 + primer2_1
+
+GTGTGCTAGGTGGGGCTAAT 118
+CACACGATCCACCCCGATTA 
+
+TAGCTGGGG 126
+ATCCACCCC 
+
+GCTGCCCCT 80
+CCACCCCGA 
+
+GTCTGG-AGCTGC 54
+CACACGATCCACC 
+```
+The upper line is the sequence of the templates and the number tells you the position of the last base, while the lower line is the primer (at least for now).
+
+The result was arranged in significance order, which means top results shows a better base-pairing and will more likely to cause trouble if it wasn't designed like that.
+
+The way to call the CLI tool is pretty much the same. with all other annoying params hardcoded in the functions
 
 ------------------------------------------------------------------------------------------
 ### Update Log 2021/04/14  
@@ -86,15 +122,13 @@ template1
 UGCUAGCAUGCUUGUAGUCAUCUAGCUUGUAGCUGUGCUAGUCGAUCGUGUAGCUGAAUGCGACAUCAUGUAGUCACUA
 .(((((((((((...(((......)))...))).)))))))).....................................
 ```
-### How to compile the C++ source file  
-```
-make
-```
-### How to install this tool locally:
-```
-conda install biopython -c conda-forge ...
+-----------------------------------------------
+### In Devlopment
+We have successfully have the readfile module running, and the cleanup module is in development and hopefully will come into being in the near future. To use the readfile module just simply install the biopython package and run the code. You can also from module `readfile` import the `read_file` class, and run the code with
 
-git clone https://github.com/athe1sm/PCR-detective.git
-cd ./PCR-detective
-pip install -e .
 ```
+file = read_file('filepath')
+seq_tuple = file.readfile()
+```
+
+the input will be fasta or txt files with sequences that can be recognized by Biopython, while the output will be a tuple including a list of ids and another list of sequences.   

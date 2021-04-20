@@ -8,8 +8,11 @@ Command line interface to run PCR-detective
 
 import argparse
 # add import statement for readfile.py
-from .readfile import Read_file
-from .cleanup import Cleanup
+from src.readfile import Read_file
+from src.cleanup import Cleanup
+from src.SmithWaterman import match, Scoring
+from src.matchmaker import Matchmaker
+import os
 
 def parse_command_line():
     "parses args for the readfile funtion"
@@ -55,10 +58,34 @@ def main():
     args = parse_command_line()
 
     # add if arguments here for read_file()
-    res=Cleanup(seq_tuple=args.filepath,
+
+
+    outputpath = os.getcwd()+'/output'
+    if not os.path.exists(outputpath):
+        os.makedirs(outputpath)
+    doutput = outputpath + '/' + args.output + '.txt'
+    if os.path.isfile(doutput):
+        n=0
+        while 1:
+            n += 1
+            noutput = doutput[:-4] + "(" + str(n) + ").txt"
+            if not os.path.isfile(noutput):
+                break
+        fp = noutput
+    else:
+        fp = doutput
+    
+    res = Cleanup(seq_tuple=args.filepath,
         temptype=args.temptype,
-        output=args.output,
+        output=fp,
         autoclean=args.clean).clean_up()
+
+    file = open(fp,'a')
+    
+    file.write(Matchmaker(list(res)).run())
+    file.close
+    
+    
     
     print(list(res))
         # cleanup(), add when cleanup.py is ready
